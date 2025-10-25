@@ -97,6 +97,7 @@ bindsym $mod+d exec --no-startup-id rofi -show drun -disable-history -no-sort
 
 # ffmpeg-rofi
 bindsym Home exec --no-startup-id ffmpeg-rofi
+
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down

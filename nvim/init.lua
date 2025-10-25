@@ -38,7 +38,7 @@ opt.undofile = true
 
 -- Space as leader
 vim.g.mapleader = " "
-vim.g.maplocalleadder = " "
+vim.g.maplocalleader = " "
 
 local keymap = vim.keymap.set
 
@@ -78,7 +78,6 @@ opt.completeopt = { "menu", "menuone", "noselect" }
 opt.pumheight = 10
 opt.pumblend = 10
 opt.complete = ".,w,b,u,t,i"
-opt.updatetime = 300
 opt.shortmess:append("c")
 
 -- Wildmenu
@@ -88,7 +87,7 @@ opt.wildignorecase = true
 
 -- Path settings
 opt.path:append("**")
-opt.wildignore:append({ "*/node_modules/*", "*/.git/*", "*/dist/*", "*.swp", "*.pyc" })
+opt.wildignore:append({"*/.git/*", "*/dist/*", "*.swp", "*.pyc" })
 
 -- Tab navigation in completion menu
 keymap("i", "<Tab>", function()
@@ -124,5 +123,3 @@ vim.api.nvim_create_autocmd("CompleteDone", {
 vim.cmd("iabbrev fn function")
 vim.cmd("iabbrev ret return")
 vim.cmd("iabbrev cl console.log")
-
--- Hello
