@@ -1,0 +1,42 @@
+[theme]
+theme = "gruvbox-dark"
+[theme.overrides]
+idle_bg = "#2e3440"    
+idle_fg = "#D3D3D3"
+separator = "   "        
+good_bg = "#2e3440"
+good_fg = "#d8dee9"
+info_bg = "#2e3440" 
+info_fg = "#d8dee9"
+warning_bg = "#2e3440"
+warning_fg = "#d8dee9"
+critical_bg = "#2e3440"
+critical_fg = "#d8dee9"
+
+[[block]]
+block = "backlight"
+device = "intel_backlight"
+
+[[block]]
+block = "cpu"
+interval = 1
+
+[[block]]
+block = "battery"
+format = " $percentage {$time_remaining.dur(hms:true, min_unit:m) |}"
+device = "DisplayDevice"
+driver = "upower"
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "time"
+interval = 60
+format = "<b>BR: $timestamp.datetime(f:'%a %d/%m %R') </b>"
+
+[[block]]
+block = "time"
+interval = 60
+format = "<b>ET: $timestamp.datetime(f:'%a %d %R') </b>"
+timezone = "US/Eastern"

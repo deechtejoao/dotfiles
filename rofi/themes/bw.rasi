@@ -1,0 +1,107 @@
+* {
+  bg: #000000;
+  fg: #ffffff;
+
+  font: "JetBrains Mono 10";
+
+  background-color: @bg;
+  text-color: @fg;
+  border-color: @fg;
+  spacing: 3px;
+}
+
+configuration {
+  drun { display-name: ""; }
+}
+
+window {
+  width: 45%;
+  height: 55%;
+  padding: 10px;
+  border: 1px;
+}
+
+mainbox {
+  padding: 6px;
+  spacing: 6px;
+}
+
+inputbar {
+  padding: 6px 8px;
+  border: 1px;
+  background-color: @bg;
+  text-color: @fg;
+}
+
+prompt {
+  margin: 0px 8px 0px 0px;
+  text-color: @fg;
+}
+
+entry {
+  padding: 5px 0px;
+  text-color: @fg;
+  background-color: @bg;
+}
+
+listview {
+  /* Show more rows to increase body height */
+  lines: 12;
+  fixed-height: true;
+  scrollbar: false;
+  border: 0px;
+  spacing: 5px;
+  padding: 5px 0px;
+}
+
+element {
+  /* Taller rows */
+  padding: 6px 8px;
+  border: 0px;
+  background-color: @bg;
+  text-color: @fg;
+}
+
+element selected {
+  background-color: @fg;    /* invert on selection */
+  text-color: @bg;
+  border: 1px;
+  border-color: @fg;
+}
+
+element active {
+  background-color: @bg;
+  text-color: @fg;
+}
+
+element urgent {
+  background-color: @bg;
+  text-color: @fg;
+}
+
+element-text, element-icon {
+  background-color: inherit;
+  text-color: inherit;
+}
+
+element-icon {
+  size: 1.25em;
+}
+
+message {
+  padding: 6px 8px;
+  border: 1px;
+}
+
+button {
+  padding: 6px 8px;
+  border: 1px;
+  background-color: @bg;
+  text-color: @fg;
+}
+
+button selected {
+  background-color: @fg;
+  text-color: @bg;
+}
+
