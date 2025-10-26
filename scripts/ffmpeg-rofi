@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# Configuration
+RECORD_DIR="$HOME/videos"
+PID_FILE="/tmp/screen-record.pid"
+LOG_FILE="/tmp/screen-record.log"
+RESOLUTION="1920x1080"
+FPS="30"
+OUTPUT="$RECORD_DIR/recording_$(date +%Y%m%d_%H%M%S).mp4"
+
+# Create recording directory
+mkdir -p "$RECORD_DIR"
+
+# Check recording status
+is_recording() {
+    if [ -f "$PID_FILE" ]; then
+        if kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+            return 0
+        else
+            rm -f "$PID_FILE"  # Clean stale PID
+        fi
+    fi
+    return 1
+}
+
+# Start recording
+start_recording() {
+    if is_recording; then
+        notify-send "Screen Record" "Already recording!" -u low
+        exit 0
+    fi
+
+    # Start FFmpeg in background
+    ffmpeg -f x11grab -video_size "$RESOLUTION" -framerate "$FPS" -i :0.0 \
+           -c:v libx264 -preset ultrafast -crf 23 -y "$OUTPUT" \
+           </dev/null >"$LOG_FILE" 2>&1 &
+
+    echo $! > "$PID_FILE"
+    notify-send "Screen Record" "Started recording to $OUTPUT" -u normal
+}
+
+# Stop recording
+stop_recording() {
+    if ! is_recording; then
+        notify-send "Screen Record" "Not recording!" -u low
+        exit 0
+    fi
+
+    # Gracefully stop FFmpeg
+    kill -INT "$(cat "$PID_FILE")" 2>/dev/null
+    wait "$(cat "$PID_FILE")" 2>/dev/null
+    rm -f "$PID_FILE"
+    notify-send "Screen Record" "Recording saved to $OUTPUT" -u normal
+}
+
+# Pause/resume recording
+pause_recording() {
+    if ! is_recording; then
+        notify-send "Screen Record" "Not recording!" -u low
+        exit 0
+    fi
+
+    PID=$(cat "$PID_FILE")
+    if kill -0 "$PID" 2>/dev/null; then
+        # Toggle pause/resume using SIGSTOP/SIGCONT
+        if kill -0 "$PID" 2>/dev/null && [[ -z $(ps -o state= -p "$PID" | grep 'T') ]]; then
+            kill -STOP "$PID"
+            notify-send "Screen Record" "Paused" -u normal
+        else
+            kill -CONT "$PID"
+            notify-send "Screen Record" "Resumed" -u normal
+        fi
+    fi
+}
+
+# Generate menu options
+if is_recording; then
+    OPTIONS="Stop\nPause/Resume"
+else
+    OPTIONS="Start"
+fi
+
+# Show Rofi menu
+CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Screen Record" -theme-str '#window { width: 200px; }')
+
+# Execute action
+case "$CHOICE" in
+    "Start") start_recording ;;
+    "Stop") stop_recording ;;
+    "Pause/Resume") pause_recording ;;
+    *) exit 0 ;;
+esac
