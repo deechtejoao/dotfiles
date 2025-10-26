@@ -2,7 +2,7 @@
 
 # Configuration
 DOTFILES_DIR="$HOME/.dotfiles"
-REPO_DIRS=("i3" "i3status-rust" "rofi" "nvim" "kitty")
+REPO_DIRS=("i3" "i3status-rust" "rofi" "nvim" "kitty" "scripts")
 CONFIG_BASE="$HOME/.config"
 COMMIT_MSG="Auto commit: $(date '+%Y-%m-%d %H:%M:%S')"
 
@@ -43,6 +43,9 @@ get_program_message() {
             ;;
         "kitty")
           echo "kitty: Update kitty configuration"
+          ;;
+        "scripts")
+          echo "scripts: Update scripts"
           ;;
         *)
             echo "$program: Updated configuration"
